@@ -2631,34 +2631,30 @@ __metadata:
     "@babel/core": ^7.21.0
     "@babel/traverse": ^7.20.12
     "@babel/types": ^7.20.7
-    "@lingui/babel-plugin-lingui-macro": "workspace:*"
     "@lingui/jest-mocks": "workspace:*"
+    "@whoosh.bike/babel-plugin-lingui-macro": "workspace:*"
     unbuild: 2.0.0
   languageName: unknown
   linkType: soft
 
-"@lingui/babel-plugin-lingui-macro@5.3.0, @lingui/babel-plugin-lingui-macro@workspace:*, @lingui/babel-plugin-lingui-macro@workspace:packages/babel-plugin-lingui-macro":
-  version: 0.0.0-use.local
-  resolution: "@lingui/babel-plugin-lingui-macro@workspace:packages/babel-plugin-lingui-macro"
+"@lingui/babel-plugin-lingui-macro@npm:5.3.0":
+  version: 5.3.0
+  resolution: "@lingui/babel-plugin-lingui-macro@npm:5.3.0"
   dependencies:
     "@babel/core": ^7.20.12
-    "@babel/parser": ^7.20.15
     "@babel/runtime": ^7.20.13
-    "@babel/traverse": ^7.20.12
     "@babel/types": ^7.20.7
     "@lingui/conf": 5.3.0
     "@lingui/core": 5.3.0
     "@lingui/message-utils": 5.3.0
-    "@types/babel-plugin-macros": ^2.8.5
-    prettier: 2.8.3
-    unbuild: 2.0.0
   peerDependencies:
     babel-plugin-macros: 2 || 3
   peerDependenciesMeta:
     babel-plugin-macros:
       optional: true
-  languageName: unknown
-  linkType: soft
+  checksum: 83576c24ff5365882268c8924654e2483cbcafd0206fd2b9e0a1be7013acabc9ffba78549126f23076718bc9fce40d7006ccc1e82145ef9f37a35a1ac1f8c2c3
+  languageName: node
+  linkType: hard
 
 "@lingui/cli@5.3.0, @lingui/cli@workspace:*, @lingui/cli@workspace:packages/cli":
   version: 0.0.0-use.local
@@ -4725,6 +4721,29 @@ __metadata:
   checksum: f15ae4c2441b979a3b4fce78f3d83472fb22350c6dc3fd34bfe7c3da108e0b2360718734d961bba20e7716cb8578e964b870da55b035e209e50ec9db0378a3f7
   languageName: node
   linkType: hard
+
+"@whoosh.bike/babel-plugin-lingui-macro@workspace:*, @whoosh.bike/babel-plugin-lingui-macro@workspace:packages/babel-plugin-lingui-macro":
+  version: 0.0.0-use.local
+  resolution: "@whoosh.bike/babel-plugin-lingui-macro@workspace:packages/babel-plugin-lingui-macro"
+  dependencies:
+    "@babel/core": ^7.20.12
+    "@babel/parser": ^7.20.15
+    "@babel/runtime": ^7.20.13
+    "@babel/traverse": ^7.20.12
+    "@babel/types": ^7.20.7
+    "@lingui/conf": 5.3.0
+    "@lingui/core": 5.3.0
+    "@lingui/message-utils": 5.3.0
+    "@types/babel-plugin-macros": ^2.8.5
+    prettier: 2.8.3
+    unbuild: 2.0.0
+  peerDependencies:
+    babel-plugin-macros: 2 || 3
+  peerDependenciesMeta:
+    babel-plugin-macros:
+      optional: true
+  languageName: unknown
+  linkType: soft
 
 "@xtuc/ieee754@npm:^1.2.0":
   version: 1.2.0

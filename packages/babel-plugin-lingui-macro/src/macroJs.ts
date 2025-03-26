@@ -23,6 +23,7 @@ import {
 } from "./macroJsAst"
 
 export type MacroJsOpts = {
+  catalogName: string | void
   i18nImportName: string
   useLinguiImportName: string
 
@@ -32,6 +33,7 @@ export type MacroJsOpts = {
 }
 
 export class MacroJs {
+  catalogName: string | void
   // Identifier of i18n object
   i18nImportName: string
   useLinguiImportName: string
@@ -42,6 +44,7 @@ export class MacroJs {
   _ctx: MacroJsContext
 
   constructor(opts: MacroJsOpts) {
+    this.catalogName = opts.catalogName
     this.i18nImportName = opts.i18nImportName
     this.useLinguiImportName = opts.useLinguiImportName
 
@@ -241,7 +244,16 @@ export class MacroJs {
         )
       : null
 
-    const newNode = t.callExpression(t.identifier(this.useLinguiImportName), [])
+    const useLinguiArguments = []
+
+    if (this.catalogName) {
+      useLinguiArguments.push(t.stringLiteral(this.catalogName))
+    }
+
+    const newNode = t.callExpression(
+      t.identifier(this.useLinguiImportName),
+      useLinguiArguments
+    )
 
     if (!_property) {
       return newNode
@@ -310,7 +322,10 @@ export class MacroJs {
     _property.key.name = "_"
     _property.value.name = uniqTIdentifier.name
 
-    return t.callExpression(t.identifier(this.useLinguiImportName), [])
+    return t.callExpression(
+      t.identifier(this.useLinguiImportName),
+      useLinguiArguments
+    )
   }
 
   private createI18nCall(

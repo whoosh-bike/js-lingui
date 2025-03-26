@@ -1,5 +1,5 @@
 {
-  "name": "@lingui/babel-plugin-lingui-macro",
+  "name": "@whoosh.bike/babel-plugin-lingui-macro",
   "version": "5.3.0",
   "description": "Babel plugin for transforming Lingui Macros",
   "main": "./dist/index.cjs",
@@ -72,10 +72,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lingui/js-lingui.git"
+    "url": "https://github.com/whoosh-bike/js-lingui.git"
   },
   "bugs": {
-    "url": "https://github.com/lingui/js-lingui/issues"
+    "url": "https://github.com/whoosh-bike/js-lingui/issues"
   },
   "engines": {
     "node": ">=20.0.0"
