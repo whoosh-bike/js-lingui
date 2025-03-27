@@ -9,6 +9,7 @@ import {
   type LinguiConfigNormalized,
   getConfig as loadConfig,
 } from "@lingui/conf"
+import { getCatalogName } from "./utils/getCatalogName"
 
 let config: LinguiConfigNormalized
 
@@ -236,6 +237,10 @@ export default function ({
                 state: PluginPass
               ) {
                 const macro = new MacroJs({
+                  catalogName: getCatalogName(
+                    state.filename,
+                    state.get("linguiConfig")
+                  ),
                   stripNonEssentialProps:
                     process.env.NODE_ENV == "production" &&
                     !(state.opts as LinguiPluginOpts).extract,

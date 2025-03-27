@@ -3,7 +3,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import linguiMacroPlugin, {
   LinguiPluginOpts,
-} from "@lingui/babel-plugin-lingui-macro"
+} from "@whoosh.bike/babel-plugin-lingui-macro"
 import { transformFileSync, transformSync, TransformOptions } from "@babel/core"
 import prettier from "prettier"
 import path from "path"
