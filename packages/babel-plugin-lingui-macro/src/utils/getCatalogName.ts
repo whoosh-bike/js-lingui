@@ -6,7 +6,12 @@ export function getCatalogName(
 ): string | void | never {
   for (const catalog of config.catalogs) {
     const re = new RegExp(
-      catalog.include.join("|").replace(/{name}/g, "([^/]+)")
+      catalog.include
+        .map((s) => s
+          .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+          .replace(/\\{name\\}/g, "([^/]+)")
+          .concat("(?:/.+)?$"))
+        .join("|")
     )
     const match = path.match(re)
 
