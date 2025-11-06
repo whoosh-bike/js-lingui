@@ -127,4 +127,27 @@ describe("getCatalogName", () => {
 
     expect(actual).toBe("auth")
   })
+
+  it("handles multiple catalogs having include patterns starting with the same path", () => {
+    const actual = getCatalogName(
+      "src/features/user-profile/Test.tsx",
+      makeConfig({
+        locales: ["en"],
+        catalogs: [
+          {
+            name: "user",
+            path: "src/features/user/{locale}",
+            include: ["src/features/user"],
+          },
+          {
+            name: "user-profile",
+            path: "src/features/user-profile/{locale}",
+            include: ["src/features/user-profile"],
+          },
+        ],
+      })
+    )
+
+    expect(actual).toBe("user-profile")
+  })
 })
