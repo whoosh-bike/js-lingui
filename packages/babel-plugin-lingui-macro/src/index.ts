@@ -8,6 +8,7 @@ import { JsMacroName } from "./constants"
 import {
   type LinguiConfigNormalized,
   getConfig as loadConfig,
+  LinguiConfig,
 } from "@lingui/conf"
 import { getCatalogName } from "./utils/getCatalogName"
 
@@ -87,15 +88,29 @@ const getIdentifierPath = ((path: NodePath, node: Identifier) => {
   return foundPath
 }) as any
 
+type MacroImports = {
+  corePackage: Set<NodePath<babelTypes.ImportDeclaration>>
+  jsxPackage: Set<NodePath<babelTypes.ImportDeclaration>>
+  all: Set<NodePath<babelTypes.ImportDeclaration>>
+}
+
+const LinguiSymbolToImportMap = {
+  Trans: "jsxPackage",
+  useLingui: "jsxPackage",
+  i18n: "corePackage",
+} satisfies Record<LinguiSymbol, keyof LinguiConfig["macro"]>
+
 export default function ({
   types: t,
 }: {
   types: typeof babelTypes
 }): PluginObj {
-  function addImport(state: PluginPass, name: LinguiSymbol) {
-    const path = state.get(
-      "macroImport"
-    ) as NodePath<babelTypes.ImportDeclaration>
+  function addImport(
+    macroImports: MacroImports,
+    state: PluginPass,
+    name: LinguiSymbol
+  ) {
+    const [path] = macroImports[LinguiSymbolToImportMap[name]]
 
     const config = state.get("linguiConfig") as LinguiConfigNormalized
 
@@ -103,17 +118,19 @@ export default function ({
       state.set("has_import_" + name, true)
       const [moduleSource, importName] = config.runtimeConfigModule[name]
 
-      const [newPath] = path.insertAfter(
-        t.importDeclaration(
-          [
-            t.importSpecifier(
-              getSymbolIdentifier(state, name),
-              t.identifier(importName)
-            ),
-          ],
-          t.stringLiteral(moduleSource)
-        )
+      const importDecl = t.importDeclaration(
+        [
+          t.importSpecifier(
+            getSymbolIdentifier(state, name),
+            t.identifier(importName)
+          ),
+        ],
+        t.stringLiteral(moduleSource)
       )
+
+      importDecl.loc = path.node.loc
+
+      const [newPath] = path.insertAfter(importDecl)
 
       path.parentPath.scope.registerDeclaration(newPath)
     }
@@ -123,18 +140,34 @@ export default function ({
     )
   }
 
-  function getMacroImports(path: NodePath<Program>) {
-    const linguiPackages = new Set([
-      ...config.macro.corePackage,
-      ...config.macro.jsxPackage,
-    ])
+  function getMacroImports(path: NodePath<Program>): MacroImports {
+    const corePackage = new Set(
+      path
+        .get("body")
+        .filter(
+          (statement) =>
+            statement.isImportDeclaration() &&
+            config.macro.corePackage.includes(
+              statement.get("source").node.value
+            )
+        ) as NodePath<babelTypes.ImportDeclaration>[]
+    )
 
-    return path.get("body").filter((statement) => {
-      return (
-        statement.isImportDeclaration() &&
-        linguiPackages.has(statement.get("source").node.value)
-      )
-    })
+    const jsxPackage = new Set(
+      path
+        .get("body")
+        .filter(
+          (statement) =>
+            statement.isImportDeclaration() &&
+            config.macro.jsxPackage.includes(statement.get("source").node.value)
+        ) as NodePath<babelTypes.ImportDeclaration>[]
+    )
+
+    return {
+      corePackage,
+      jsxPackage,
+      all: new Set([...corePackage, ...jsxPackage]),
+    }
   }
 
   function getSymbolIdentifier(
@@ -185,17 +218,15 @@ export default function ({
 
           const macroImports = getMacroImports(path)
 
-          if (!macroImports.length) {
+          if (!macroImports.all.size) {
             return
           }
-
-          state.set("macroImport", macroImports[0])
 
           state.set("linguiIdentifiers", {
             i18n: path.scope.generateUidIdentifier("i18n"),
             Trans: path.scope.generateUidIdentifier("Trans"),
             useLingui: path.scope.generateUidIdentifier("useLingui"),
-          })
+          } satisfies Record<LinguiSymbol, babelTypes.Identifier>)
 
           path.traverse(
             {
@@ -225,7 +256,7 @@ export default function ({
 
                 if (newNode) {
                   const [newPath] = path.replaceWith(newNode)
-                  addImport(state, "Trans").reference(newPath)
+                  addImport(macroImports, state, "Trans").reference(newPath)
                 }
               },
 
@@ -258,6 +289,7 @@ export default function ({
 
                 try {
                   newNode = macro.replacePath(path)
+                  path.scope.crawl()
                 } catch (e) {
                   reportUnsupportedSyntax(path, e as Error)
                 }
@@ -266,11 +298,13 @@ export default function ({
                   const [newPath] = path.replaceWith(newNode)
 
                   if (macro.needsUseLinguiImport) {
-                    addImport(state, "useLingui").reference(newPath)
+                    addImport(macroImports, state, "useLingui").reference(
+                      newPath
+                    )
                   }
 
                   if (macro.needsI18nImport) {
-                    addImport(state, "i18n").reference(newPath)
+                    addImport(macroImports, state, "i18n").reference(newPath)
                   }
                 }
               },
@@ -280,7 +314,7 @@ export default function ({
         },
         exit(path, state) {
           const macroImports = getMacroImports(path)
-          macroImports.forEach((path) => path.remove())
+          macroImports.all.forEach((path) => path.remove())
         },
       },
     } as Visitor<PluginPass>,

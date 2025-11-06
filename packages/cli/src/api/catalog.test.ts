@@ -4,7 +4,7 @@ import mockFs from "mock-fs"
 import { mockConsole } from "@lingui/jest-mocks"
 import { LinguiConfig, makeConfig } from "@lingui/conf"
 
-import { Catalog, cleanObsolete, order } from "./catalog"
+import { Catalog, cleanObsolete, order, writeCompiled } from "./catalog"
 import { createCompiledCatalog } from "./compile"
 
 import {
@@ -193,6 +193,39 @@ describe("Catalog", () => {
       expect(messages).toMatchSnapshot()
     })
 
+    it("should sort placeholders to keep them stable between runs", async () => {
+      const runA = await extractFromFiles(
+        [
+          fixture("collect-placeholders-sorting/a.ts"),
+          fixture("collect-placeholders-sorting/b.ts"),
+        ],
+        mockConfig()
+      )
+
+      const runB = await extractFromFiles(
+        [
+          fixture("collect-placeholders-sorting/b.ts"),
+          fixture("collect-placeholders-sorting/a.ts"),
+        ],
+        mockConfig()
+      )
+
+      expect(Object.values(runA)[0].placeholders[0]).toStrictEqual(
+        Object.values(runB)[0].placeholders[0]
+      )
+
+      expect(Object.values(runA)[0].placeholders).toMatchInlineSnapshot(`
+        {
+          0: [
+            getUser(),
+            getWorld(),
+          ],
+        }
+      `)
+
+      // expect(messages).toMatchSnapshot()
+    })
+
     it("should support experimental typescript decorators under a flag", async () => {
       const messages = await extractFromFiles(
         [fixture("collect-typescript-jsx/tsx-experimental-decorators.tsx")],
@@ -315,6 +348,21 @@ describe("Catalog", () => {
           fixture("collect/$componentE/index.js"),
         ],
       })
+      expect(messages).toMatchSnapshot()
+    })
+
+    it("should extract files with special characters in the include path", async () => {
+      const catalog = new Catalog(
+        {
+          name: "messages",
+          path: "locales/{locale}",
+          include: [fixture("collect/[componentD]")],
+          exclude: [],
+          format,
+        },
+        mockConfig()
+      )
+      const messages = await catalog.collect()
       expect(messages).toMatchSnapshot()
     })
 
@@ -569,7 +617,7 @@ describe("order", () => {
     expect(Object.keys(orderedCatalogs)).toMatchSnapshot()
   })
 
-  it("should order messages by message", () => {
+  it("should order messages by message and then by context", () => {
     const catalog = {
       msg1: makeNextMessage({
         message: "B",
@@ -582,6 +630,7 @@ describe("order", () => {
       msg2: makeNextMessage({
         // message is optional.
         translation: "A",
+        context: "context1",
         origin: [["file2.js", 3]],
       }),
       msg3: makeNextMessage({
@@ -594,6 +643,18 @@ describe("order", () => {
         translation: "C",
         origin: [["file1.js", 1]],
       }),
+      msg5: makeNextMessage({
+        message: "B",
+        translation: "B",
+        context: "context3",
+        origin: [["file2.js", 4]],
+      }),
+      msg6: makeNextMessage({
+        message: "B",
+        translation: "B",
+        context: "context2",
+        origin: [["file2.js", 5]],
+      }),
     }
 
     const orderedCatalogs = order("message", catalog)
@@ -603,6 +664,8 @@ describe("order", () => {
       [
         msg2,
         msg1,
+        msg6,
+        msg5,
         msg4,
         msg3,
       ]
@@ -640,9 +703,9 @@ describe("writeCompiled", () => {
     async ({ namespace, extension }) => {
       const { source } = createCompiledCatalog("en", {}, { namespace })
       // Test that the file extension of the compiled catalog is `.mjs`
-      expect(await catalog.writeCompiled("en", source, namespace)).toMatch(
-        extension
-      )
+      expect(
+        await writeCompiled(catalog.path, "en", source, namespace)
+      ).toMatch(extension)
     }
   )
 })

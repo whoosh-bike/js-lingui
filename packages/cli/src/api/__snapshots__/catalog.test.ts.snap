@@ -19,6 +19,23 @@ exports[`Catalog POT Flow Should get translations from template if locale file n
 }
 `;
 
+exports[`Catalog collect should extract files with special characters in the include path 1`] = `
+{
+  Component D: {
+    comments: [],
+    context: undefined,
+    message: undefined,
+    origin: [
+      [
+        collect/[componentD]/index.js,
+        1,
+      ],
+    ],
+    placeholders: {},
+  },
+}
+`;
+
 exports[`Catalog collect should extract files with special characters when passed in options 1`] = `
 {
   Component C: {
@@ -124,17 +141,13 @@ exports[`Catalog collect should extract messages from source files 1`] = `
   },
   Hello World: {
     comments: [
-      Hello comment,
       Comment A,
       Comment A again,
+      Hello comment,
     ],
     context: undefined,
     message: undefined,
     origin: [
-      [
-        collect/componentA/index.js,
-        1,
-      ],
       [
         collect/componentA/componentA.js,
         2,
@@ -142,6 +155,10 @@ exports[`Catalog collect should extract messages from source files 1`] = `
       [
         collect/componentA/componentA.js,
         3,
+      ],
+      [
+        collect/componentA/index.js,
+        1,
       ],
     ],
     placeholders: {},
@@ -177,17 +194,13 @@ exports[`Catalog collect should extract only files passed on options 1`] = `
   },
   Hello World: {
     comments: [
-      Hello comment,
       Comment A,
       Comment A again,
+      Hello comment,
     ],
     context: undefined,
     message: undefined,
     origin: [
-      [
-        collect/componentA/index.js,
-        1,
-      ],
       [
         collect/componentA/componentA.js,
         2,
@@ -195,6 +208,10 @@ exports[`Catalog collect should extract only files passed on options 1`] = `
       [
         collect/componentA/componentA.js,
         3,
+      ],
+      [
+        collect/componentA/index.js,
+        1,
       ],
     ],
     placeholders: {},
@@ -345,9 +362,9 @@ exports[`Catalog make should collect and write catalogs 2`] = `
     },
     Hello World: {
       comments: [
-        Hello comment,
         Comment A,
         Comment A again,
+        Hello comment,
         js-lingui-explicit-id,
       ],
       context: null,
@@ -358,16 +375,16 @@ exports[`Catalog make should collect and write catalogs 2`] = `
       obsolete: false,
       origin: [
         [
-          collect/componentA/index.js,
-          1,
-        ],
-        [
           collect/componentA/componentA.js,
           2,
         ],
         [
           collect/componentA/componentA.js,
           3,
+        ],
+        [
+          collect/componentA/index.js,
+          1,
         ],
       ],
       translation: ,
@@ -412,9 +429,9 @@ exports[`Catalog make should collect and write catalogs 2`] = `
     },
     Hello World: {
       comments: [
-        Hello comment,
         Comment A,
         Comment A again,
+        Hello comment,
         js-lingui-explicit-id,
       ],
       context: null,
@@ -425,16 +442,16 @@ exports[`Catalog make should collect and write catalogs 2`] = `
       obsolete: false,
       origin: [
         [
-          collect/componentA/index.js,
-          1,
-        ],
-        [
           collect/componentA/componentA.js,
           2,
         ],
         [
           collect/componentA/componentA.js,
           3,
+        ],
+        [
+          collect/componentA/index.js,
+          1,
         ],
       ],
       translation: ,
@@ -589,9 +606,9 @@ exports[`Catalog make should merge with existing catalogs 2`] = `
     },
     Hello World: {
       comments: [
-        Hello comment,
         Comment A,
         Comment A again,
+        Hello comment,
         js-lingui-explicit-id,
       ],
       context: null,
@@ -602,16 +619,16 @@ exports[`Catalog make should merge with existing catalogs 2`] = `
       obsolete: false,
       origin: [
         [
-          collect/componentA/index.js,
-          1,
-        ],
-        [
           collect/componentA/componentA.js,
           2,
         ],
         [
           collect/componentA/componentA.js,
           3,
+        ],
+        [
+          collect/componentA/index.js,
+          1,
         ],
       ],
       translation: ,
@@ -740,9 +757,9 @@ exports[`Catalog make should merge with existing catalogs 2`] = `
     },
     Hello World: {
       comments: [
-        Hello comment,
         Comment A,
         Comment A again,
+        Hello comment,
         js-lingui-explicit-id,
       ],
       context: null,
@@ -753,16 +770,16 @@ exports[`Catalog make should merge with existing catalogs 2`] = `
       obsolete: false,
       origin: [
         [
-          collect/componentA/index.js,
-          1,
-        ],
-        [
           collect/componentA/componentA.js,
           2,
         ],
         [
           collect/componentA/componentA.js,
           3,
+        ],
+        [
+          collect/componentA/index.js,
+          1,
         ],
       ],
       translation: ,
@@ -832,9 +849,9 @@ exports[`Catalog make should only update the specified locale 2`] = `
     },
     Hello World: {
       comments: [
-        Hello comment,
         Comment A,
         Comment A again,
+        Hello comment,
         js-lingui-explicit-id,
       ],
       context: null,
@@ -845,16 +862,16 @@ exports[`Catalog make should only update the specified locale 2`] = `
       obsolete: false,
       origin: [
         [
-          collect/componentA/index.js,
-          1,
-        ],
-        [
           collect/componentA/componentA.js,
           2,
         ],
         [
           collect/componentA/componentA.js,
           3,
+        ],
+        [
+          collect/componentA/index.js,
+          1,
         ],
       ],
       translation: ,
@@ -905,9 +922,9 @@ exports[`Catalog makeTemplate should collect and write a template 2`] = `
   },
   Hello World: {
     comments: [
-      Hello comment,
       Comment A,
       Comment A again,
+      Hello comment,
       js-lingui-explicit-id,
     ],
     context: null,
@@ -918,16 +935,16 @@ exports[`Catalog makeTemplate should collect and write a template 2`] = `
     obsolete: false,
     origin: [
       [
-        collect/componentA/index.js,
-        1,
-      ],
-      [
         collect/componentA/componentA.js,
         2,
       ],
       [
         collect/componentA/componentA.js,
         3,
+      ],
+      [
+        collect/componentA/index.js,
+        1,
       ],
     ],
     translation: ,
