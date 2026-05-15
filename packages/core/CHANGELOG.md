@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.1](https://github.com/lingui/js-lingui/compare/v6.0.0...v6.0.1) (2026-04-30)
+
+**Note:** Version bump only for package @lingui/core
+
+# [6.0.0](https://github.com/lingui/js-lingui/compare/v5.9.5...v6.0.0) (2026-04-22)
+
+- [Announcing Lingui 6.0](https://lingui.dev/blog/2026/04/22/announcing-lingui-6.0)
+
+## [5.9.5](https://github.com/lingui/js-lingui/compare/v5.9.4...v5.9.5) (2026-04-06)
+
+**Note:** Version bump only for package @lingui/core
+
+## [5.9.4](https://github.com/lingui/js-lingui/compare/v5.9.3...v5.9.4) (2026-03-27)
+
+**Note:** Version bump only for package @lingui/core
+
+## [5.9.3](https://github.com/lingui/js-lingui/compare/v5.9.2...v5.9.3) (2026-03-13)
+
+**Note:** Version bump only for package @lingui/core
+
+## [5.9.2](https://github.com/lingui/js-lingui/compare/v5.9.1...v5.9.2) (2026-02-23)
+
+**Note:** Version bump only for package @lingui/core
+
+## [5.9.1](https://github.com/lingui/js-lingui/compare/v5.9.0...v5.9.1) (2026-02-11)
+
+**Note:** Version bump only for package @lingui/core
+
+# [5.9.0](https://github.com/lingui/js-lingui/compare/v5.8.0...v5.9.0) (2026-01-23)
+
+**Note:** Version bump only for package @lingui/core
+
+# [5.8.0](https://github.com/lingui/js-lingui/compare/v5.7.0...v5.8.0) (2026-01-16)
+
+**Note:** Version bump only for package @lingui/core
+
+# [5.7.0](https://github.com/lingui/js-lingui/compare/v5.6.1...v5.7.0) (2025-12-12)
+
+**Note:** Version bump only for package @lingui/core
+
+## [5.6.1](https://github.com/lingui/js-lingui/compare/v5.6.0...v5.6.1) (2025-11-28)
+
+**Note:** Version bump only for package @lingui/core
+
+# [5.6.0](https://github.com/lingui/js-lingui/compare/v5.5.2...v5.6.0) (2025-11-12)
+
+### Bug Fixes
+
+* improve type of values accepted by date/time/number formats ([#2359](https://github.com/lingui/js-lingui/issues/2359)) ([c1f2800](https://github.com/lingui/js-lingui/commit/c1f28006632565a0f572eb604f0b3b62ddbe54d2))
+
 ## [5.5.2](https://github.com/lingui/js-lingui/compare/v5.5.1...v5.5.2) (2025-10-30)
 
 **Note:** Version bump only for package @lingui/core

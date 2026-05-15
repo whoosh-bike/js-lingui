@@ -2,10 +2,10 @@ import { transformAsync } from "@babel/core"
 import fs from "fs"
 import path from "path"
 import { Plugin } from "esbuild"
-import { babelRe, getBabelParserOptions } from "../api/extractors/babel"
+import { babelRe, getBabelParserOptions } from "../api/extractors/babel.js"
 import linguiMacroPlugin, {
   type LinguiPluginOpts,
-} from "@lingui/babel-plugin-lingui-macro"
+} from "@whoosh.bike/babel-plugin-lingui-macro"
 import { LinguiConfigNormalized } from "@lingui/conf"
 
 export const pluginLinguiMacro = (options: {
@@ -33,24 +33,21 @@ export const pluginLinguiMacro = (options: {
 
         sourceMaps: "inline",
         parserOpts: {
-          plugins: getBabelParserOptions(
-            filename,
-            options.linguiConfig.extractorParserOptions
-          ),
+          plugins: getBabelParserOptions(filename, {}),
         },
 
         plugins: [
           [
             linguiMacroPlugin,
             {
-              extract: true,
+              descriptorFields: "all",
               linguiConfig: options.linguiConfig,
             } satisfies LinguiPluginOpts,
           ],
         ],
       })
 
-      return { contents: result.code, loader: "tsx" }
+      return { contents: result!.code!, loader: "tsx" }
     })
   },
 })
