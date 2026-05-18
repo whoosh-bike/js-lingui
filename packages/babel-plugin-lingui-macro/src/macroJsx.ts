@@ -18,7 +18,7 @@ import type { NodePath } from "@babel/traverse"
 
 import { ArgToken, ElementToken, TextToken, Token } from "./icu"
 import { makeCounter } from "./utils"
-import { JsxMacroName, MsgDescriptorPropKey, JsMacroName } from "./constants"
+import { JsxMacroName, MsgDescriptorPropKey, JsMacroName, NAMESPACE_PROP_NAME } from "./constants"
 import cleanJSXElementLiteralChild from "./utils/cleanJSXElementLiteralChild"
 import {
   createMessageDescriptorFromTokens,
@@ -55,6 +55,7 @@ export type MacroJsxContext = MacroJsContext & {
   elementsTracking: Map<string, JSXElement>
   jsxPlaceholderAttribute?: string
   jsxPlaceholderDefaults?: Record<string, string>
+  catalogName: string | undefined
 }
 
 export type MacroJsxOpts = {
@@ -63,6 +64,7 @@ export type MacroJsxOpts = {
   isLinguiIdentifier: (node: Identifier, macro: JsMacroName) => boolean
   jsxPlaceholderAttribute?: string
   jsxPlaceholderDefaults?: Record<string, string>
+  catalogName?: string
 }
 
 const choiceComponentAttributesWhitelist = [
@@ -87,6 +89,7 @@ export class MacroJSX {
 
     this.ctx = {
       ...createMacroJsContext(opts.isLinguiIdentifier, opts.descriptorFields),
+      catalogName: opts.catalogName,
       transImportName: opts.transImportName,
       elementIndex: makeCounter(),
       elementsTracking: new Map(),
@@ -126,6 +129,13 @@ export class MacroJSX {
     )
 
     attributes.push(this.types.jsxSpreadAttribute(messageDescriptor))
+
+    if (this.ctx.catalogName) {
+      attributes.push(this.types.jsxAttribute(
+        this.types.jsxIdentifier(NAMESPACE_PROP_NAME),
+        this.types.stringLiteral(this.ctx.catalogName)
+      ))
+    }
 
     const newNode = this.types.jsxElement(
       this.types.jsxOpeningElement(
