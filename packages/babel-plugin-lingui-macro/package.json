@@ -1,6 +1,6 @@
 {
   "name": "@whoosh.bike/babel-plugin-lingui-macro",
-  "version": "6.0.1",
+  "version": "6.0.2-0",
   "type": "module",
   "description": "Babel plugin that transforms Lingui compile-time macros into optimized runtime calls",
   "contributors": [
@@ -72,5 +72,6 @@
   },
   "unbuild": {
     "declaration": "node16"
-  }
+  },
+  "stableVersion": "6.0.1"
 }
