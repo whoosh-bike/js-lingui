@@ -1,5 +1,7 @@
 export const EXTRACT_MARK = "i18n"
 
+export const NAMESPACE_PROP_NAME = "ns"
+
 export enum MsgDescriptorPropKey {
   id = "id",
   message = "message",

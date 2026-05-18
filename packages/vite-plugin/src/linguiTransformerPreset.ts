@@ -59,7 +59,7 @@ export const linguiTransformerBabelPreset = (
 
   return {
     preset: {
-      plugins: [["@lingui/babel-plugin-lingui-macro", options]],
+      plugins: [["@whoosh.bike/babel-plugin-lingui-macro", options]],
     },
     rolldown: {
       filter: {

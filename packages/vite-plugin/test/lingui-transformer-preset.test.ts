@@ -21,7 +21,7 @@ describe("linguiTransformerBabelPreset", () => {
         "preset": {
           "plugins": [
             [
-              "@lingui/babel-plugin-lingui-macro",
+              "@whoosh.bike/babel-plugin-lingui-macro",
               {},
             ],
           ],
@@ -57,7 +57,7 @@ describe("linguiTransformerBabelPreset", () => {
         "preset": {
           "plugins": [
             [
-              "@lingui/babel-plugin-lingui-macro",
+              "@whoosh.bike/babel-plugin-lingui-macro",
               {},
             ],
           ],

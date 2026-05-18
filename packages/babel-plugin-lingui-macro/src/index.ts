@@ -273,6 +273,10 @@ export default function ({
                 const macro = new MacroJSX(
                   { types: t },
                   {
+                    catalogName: getCatalogName(
+                      state.filename,
+                      state.get("linguiConfig")
+                    ),
                     transImportName: getSymbolIdentifier(state, "Trans").name,
                     descriptorFields: resolveDescriptorFields(
                       state.opts as LinguiPluginOpts,

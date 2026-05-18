@@ -5,6 +5,8 @@ export function getCatalogName(
   config: LinguiConfigNormalized
 ): string | void | never {
   for (const catalog of config.catalogs) {
+    if (!catalog.include) continue
+
     const re = new RegExp(
       catalog.include
         .map((s) => s
